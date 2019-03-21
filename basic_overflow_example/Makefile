@@ -10,4 +10,4 @@ all:
 
 clean:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD)
-	rm -rf *.o *.ko  modules.order Module.symvers  skeleton.mod.c 
+	rm -rf *.o *.ko  modules.order Module.symvers  skeleton.mod.c  .* 
