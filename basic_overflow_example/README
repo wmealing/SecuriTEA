@@ -1,0 +1,36 @@
+This is used in episode 02.
+
+This is an example of basic buffer overflowing one char array into an int, showing that variables are beside each 
+other on the stack, writing too far into one will overwrite the other.
+
+This may be used in further memory corruption at a later point.
+
+Things to note: This example has some trickery in the makefile to disable stack protection, a technology
+that I will talk about in a future episode.
+
+== How to build
+
+[root@rhel7 basic_overflow_example]# make
+make -C /lib/modules/3.10.0-957.10.1.el7.x86_64/build M=/root/SecuriTEA/basic_overflow_example
+make[1]: Entering directory `/usr/src/kernels/3.10.0-957.10.1.el7.x86_64'
+  LD      /root/SecuriTEA/basic_overflow_example/built-in.o
+  CC [M]  /root/SecuriTEA/basic_overflow_example/skeleton.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /root/SecuriTEA/basic_overflow_example/skeleton.mod.o
+  LD [M]  /root/SecuriTEA/basic_overflow_example/skeleton.ko
+make[1]: Leaving directory `/usr/src/kernels/3.10.0-957.10.1.el7.x86_64'
+
+
+== How to exploit
+
+[wmealing@rhel7 ~]$ python runtest.py 
+insmod: ERROR: could not load module skeleton.ko: No such file or directory
+Iteration:  0
+Iteration:  1
+Iteration:  2
+[root@rhel7 ~]# whoami
+root
+
+Of course.
+
