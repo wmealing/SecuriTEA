@@ -36,9 +36,16 @@ static const struct file_operations proc_file_fops = {
 
 static ssize_t leak_canary(struct file *file, char __user *buffer, size_t len, loff_t *offset) {
 
+	int retlen = 0;
+	int canary = current->stack_canary;
+
+
 	printk( KERN_INFO "FIXME: need to leak the stack canary here\n"); 
 
-return len; 
+
+	retlen = sprintf(buffer,"stack canary is %d\n", canary);
+
+	return retlen; 
 }
 
 
@@ -74,7 +81,7 @@ static ssize_t exploitable_write(struct file *file, const char __user *buf, size
  * This function is called at module load time, (insmod or modprobe)
  * and creates the directory in procfs and the exploitable file..
  */
-static int __init skeleton_init(void)
+static int __init canary_init(void)
 {
 
   printk(KERN_INFO "exploit example - this should not be loaded on a production system");
@@ -87,11 +94,11 @@ static int __init skeleton_init(void)
  * kernel module (rmmod)
  */
 
-static void skeleton_cleanup(void) {
+static void canary_cleanup(void) {
   remove_proc_entry("exploitable", NULL);  
-  printk( KERN_INFO "Cleaning up skeleton-demo-module\n");
+  printk( KERN_INFO "Cleaning up canary-demo-module\n");
 }
 
 /* register entry/exit points for module */
-module_init(skeleton_init);
-module_exit(skeleton_cleanup);
+module_init(canary_init);
+module_exit(canary_cleanup);
