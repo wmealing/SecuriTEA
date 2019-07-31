@@ -40,11 +40,8 @@ static ssize_t leak_canary(struct file *file, char __user *buffer, size_t len, l
 	int canary = current->stack_canary;
 
 
-	printk( KERN_INFO "FIXME: need to leak the stack canary here\n"); 
-
-
-	retlen = sprintf(buffer,"stack canary is %d\n", canary);
-
+	printk( KERN_INFO "canary  0x%08X", canary);  
+	
 	return retlen; 
 }
 
@@ -84,7 +81,7 @@ static ssize_t exploitable_write(struct file *file, const char __user *buf, size
 static int __init canary_init(void)
 {
 
-  printk(KERN_INFO "exploit example - this should not be loaded on a production system");
+  printk(KERN_INFO "exploit example - this should not be loaded on a production system\n");
   proc_file_entry = proc_create_data("exploitable", 0666, NULL, &proc_file_fops,NULL);
   return 0;
 }
