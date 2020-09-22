@@ -32,7 +32,7 @@ static int __init skeleton_init(void)
  */
 
 static void skeleton_cleanup(void) {
-	pr_info("Exited early");
+	pr_info("Exited early\n");
 }
 
 /* register entry/exit points for module */
